@@ -1,13 +1,43 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import 'react-native-gesture-handler';
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import HomeScreen from "./src/screens/HomeScreen";
+import MovieScreen from "./src/screens/MovieScreen";
+import { StyleSheet, ActivityIndicator } from "react-native";
+import { useFonts } from "expo-font";
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+const Stack = createStackNavigator();
+
+const App = () => {
+  const [fontLoaded] = useFonts({
+    Regular: require("./assets/fonts/NunitoSans-Regular.ttf"),
+    Bold: require("./assets/fonts/NunitoSans-Bold.ttf"),
+    Black: require("./assets/fonts/NunitoSans-Black.ttf"),
+    ExtraBold: require("./assets/fonts/NunitoSans-ExtraBold.ttf"),
+    ExtraLight: require("./assets/fonts/NunitoSans-ExtraLight.ttf"),
+    Light: require("./assets/fonts/NunitoSans-Light.ttf"),
+    SemiBold: require("./assets/fonts/NunitoSans-SemiBold.ttf"),
+  });
+
+  return fontLoaded ? (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="home"
+          component={HomeScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="movie"
+          component={MovieScreen}
+          options={{ headerShown: false }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  ) :
+    <ActivityIndicator />
+    ;
 }
 
 const styles = StyleSheet.create({
@@ -18,3 +48,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+export default App
